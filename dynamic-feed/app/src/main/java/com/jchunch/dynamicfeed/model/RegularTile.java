@@ -1,4 +1,4 @@
-package com.jchunch.dynamicfeed;
+package com.jchunch.dynamicfeed.model;
 
 import android.os.Bundle;
 import android.os.Parcel;
@@ -7,7 +7,7 @@ import android.os.Parcelable;
 /**
  * Created by jchunch on 2/17/16.
  */
-public class FeedItem implements Parcelable {
+public class RegularTile extends Tile implements Parcelable {
     private static final String KEY_ARG_HEADER = "KEY_ARG_HEADER";
     private static final String KEY_ARG_BODY = "KEY_ARG_BODY";
     private static final String KEY_ARG_IMAGE_URL = "KEY_ARG_IMAGE_URL";
@@ -16,7 +16,7 @@ public class FeedItem implements Parcelable {
     private String body;
     private String imageUrl;
 
-    public FeedItem(String header, String body, String imageUrl) {
+    public RegularTile(String header, String body, String imageUrl) {
         this.header = header;
         this.body = body;
         this.imageUrl = imageUrl;
@@ -66,10 +66,10 @@ public class FeedItem implements Parcelable {
         parcel.writeBundle(bundle);
     }
 
-    public static final Parcelable.Creator<FeedItem> CREATOR = new Creator<FeedItem>() {
+    public static final Creator<RegularTile> CREATOR = new Creator<RegularTile>() {
 
         @Override
-        public FeedItem createFromParcel(Parcel source) {
+        public RegularTile createFromParcel(Parcel source) {
 
             // Read the bundle containing key value pairs from the parcel
             Bundle bundle = source.readBundle();
@@ -80,7 +80,7 @@ public class FeedItem implements Parcelable {
             String imageUrl = bundle.getString(KEY_ARG_IMAGE_URL);
 
             // Instantiate a person using values from the bundle
-            return new FeedItem(
+            return new RegularTile(
                     header,
                     body,
                     imageUrl
@@ -88,9 +88,9 @@ public class FeedItem implements Parcelable {
         }
 
         @Override
-        public FeedItem[] newArray(int size) {
+        public RegularTile[] newArray(int size) {
 
-            return new FeedItem[size];
+            return new RegularTile[size];
         }
     };
 }

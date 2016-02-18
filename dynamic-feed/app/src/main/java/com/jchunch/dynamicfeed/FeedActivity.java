@@ -9,20 +9,22 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ViewFlipper;
 
+import com.jchunch.dynamicfeed.item.TileItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jchunch on 2/16/16.
  */
-public class MainActivity extends AppCompatActivity implements OnClickListener {
-    private static final String TAG = MainActivity.class.getName();
+public class FeedActivity extends AppCompatActivity implements OnClickListener {
+    private static final String TAG = FeedActivity.class.getName();
     private static final String KEY_ARG_CHILD_VIEW_INDEX = "KEY_ARG_CHILD_VIEW_INDEX";
 
     private Button mRetry;
     private FeedRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private List<FeedItem> mFeedItems;
+    private List<TileItem> mTileItems;
     private RecyclerView mRecyclerView;
     private ViewFlipper mViewFlipper;
 
@@ -38,14 +40,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_feed);
 
         mRetry = (Button) findViewById(R.id.error_button_retry);
         mViewFlipper = (ViewFlipper) findViewById(R.id.main_view_flipper);
 
         // Init variables for recycler view
-        mFeedItems = new ArrayList<FeedItem>();
-        mRecyclerAdapter = new FeedRecyclerAdapter(mFeedItems);
+        mTileItems = new ArrayList<TileItem>();
+        mRecyclerAdapter = new FeedRecyclerAdapter(mTileItems);
         mLinearLayoutManager = new LinearLayoutManager(this);
 
         // Setup recycler view
