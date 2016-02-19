@@ -10,6 +10,13 @@ import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import com.jchunch.dynamicfeed.item.TileItem;
+import com.jchunch.dynamicfeed.item.large.LargeTileItem;
+import com.jchunch.dynamicfeed.item.regular.RegularTileItem;
+import com.jchunch.dynamicfeed.item.small.SmallTileItem;
+import com.jchunch.dynamicfeed.model.LargeTile;
+import com.jchunch.dynamicfeed.model.RegularTile;
+import com.jchunch.dynamicfeed.model.SmallTile;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +50,30 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_feed);
 
         mRetry = (Button) findViewById(R.id.error_button_retry);
+        mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
         mViewFlipper = (ViewFlipper) findViewById(R.id.main_view_flipper);
 
         // Init variables for recycler view
         mTileItems = new ArrayList<TileItem>();
-        mRecyclerAdapter = new FeedRecyclerAdapter(mTileItems);
+        Picasso picasso = Picasso.with(this);
+        mRecyclerAdapter = new FeedRecyclerAdapter(mTileItems, picasso);
         mLinearLayoutManager = new LinearLayoutManager(this);
 
         // Setup recycler view
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.addItemDecoration(new RecyclerViewDivider(this));
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         if (savedInstanceState == null) {
 
             // Load content
+            // FIXME: Replace this with API
+            mTileItems = new ArrayList<TileItem>();
+            mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
+            mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
+            mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
+            mRecyclerAdapter.updateTileItems(mTileItems);
+
         } else {
 
             // Restore view state

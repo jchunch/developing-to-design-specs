@@ -5,10 +5,16 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="background_black">#000000</color>
-    <color name="background_gray">#C2C2C2</color>
+    <color name="background_gray">#E2E2E2</color>
     <color name="background_white">#FFFFFF</color>
+
+    <color name="divider_gray">#B6B6B6</color>
 
     <color name="text_black">#000000</color>
     <color name="text_gray_dark">#222222</color>
     <color name="text_white">#FFFFFF</color>
+
+    <color name="debug_red">#F00</color>
+    <color name="debug_green">#0F0</color>
+    <color name="debug_blue">#00F</color>
 </resources>

@@ -10,7 +10,9 @@ import com.jchunch.dynamicfeed.item.TileViewHolder;
 import com.jchunch.dynamicfeed.item.large.LargeTileViewHolder;
 import com.jchunch.dynamicfeed.item.regular.RegularTileViewHolder;
 import com.jchunch.dynamicfeed.item.small.SmallTileViewHolder;
+import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -20,9 +22,11 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private static final String TAG = FeedRecyclerAdapter.class.getName();
 
     private List<TileItem> mTileItems;
+    private WeakReference<Picasso> mPicassoWeakRef;
 
-    public FeedRecyclerAdapter(List<TileItem> tileItems) {
+    public FeedRecyclerAdapter(List<TileItem> tileItems, Picasso picasso) {
         mTileItems = tileItems;
+        mPicassoWeakRef = new WeakReference<Picasso>(picasso);
     }
 
     @Override
@@ -53,11 +57,57 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
     @Override
     public void onBindViewHolder(TileViewHolder viewHolder, int position) {
+        if (viewHolder == null) {
+            return;
+        }
 
+        TileItem tileItem = getTileItemByPosition(position);
+        if (tileItem != null) {
+            tileItem.buildTileItem(viewHolder, mPicassoWeakRef);
+        }
     }
 
     @Override
     public int getItemCount() {
         return mTileItems != null ? mTileItems.size() : 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        // Get the tile item type
+        Integer discoverItemType = getTileItemType(position);
+        if (discoverItemType != null) {
+            return discoverItemType;
+        }
+
+        return super.getItemViewType(position);
+    }
+
+    private TileItem getTileItemByPosition(int position) {
+        if (mTileItems != null && !mTileItems.isEmpty()) {
+            if (position >= 0 && position < mTileItems.size()) {
+                TileItem tileItem = mTileItems.get(position);
+                if (tileItem != null) {
+                    return tileItem;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Integer getTileItemType(int position) {
+        TileItem discoverItem = getTileItemByPosition(position);
+        if (discoverItem != null) {
+            return discoverItem.getTileItemType();
+        }
+
+        return null;
+    }
+
+    public void updateTileItems(List<TileItem> tileItems) {
+        mTileItems = tileItems;
+        notifyDataSetChanged();
     }
 }
