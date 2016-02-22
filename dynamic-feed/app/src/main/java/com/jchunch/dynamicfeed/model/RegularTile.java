@@ -7,7 +7,7 @@ import android.os.Parcelable;
 /**
  * Created by jchunch on 2/17/16.
  */
-public class RegularTile extends Tile implements Parcelable {
+public class RegularTile implements Parcelable {
     private static final String KEY_ARG_HEADER = "KEY_ARG_HEADER";
     private static final String KEY_ARG_BODY = "KEY_ARG_BODY";
     private static final String KEY_ARG_IMAGE_URL = "KEY_ARG_IMAGE_URL";
