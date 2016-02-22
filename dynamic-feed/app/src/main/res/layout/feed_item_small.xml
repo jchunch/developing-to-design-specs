@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/debug_blue">
+    android:layout_marginBottom="@dimen/card_vertical_margin"
+    android:layout_marginLeft="@dimen/card_horizontal_margin"
+    android:layout_marginRight="@dimen/card_horizontal_margin"
+    android:layout_marginTop="@dimen/card_vertical_margin"
+    app:cardBackgroundColor="@color/background_white"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
 
-    <ImageView
-        android:id="@+id/small_item_image_view"
-        android:layout_width="72dp"
-        android:background="@color/background_gray"
-        app:layout_aspectRatio="100%" />
-
-    <TextView
-        android:id="@+id/small_item_header"
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/small_item_image_view"
-        android:layout_toRightOf="@+id/small_item_image_view"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:gravity="left"
-        android:singleLine="true"
-        android:textColor="@color/text_black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:text="Header"/>
+        android:background="@color/debug_blue">
 
-    <TextView
-        android:id="@+id/small_item_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/small_item_header"
-        android:layout_toRightOf="@+id/small_item_image_view"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="2dp"
-        android:ellipsize="end"
-        android:gravity="left"
-        android:maxLines="2"
-        android:textColor="@color/text_gray_dark"
-        android:textSize="14sp"
-        tools:text="The body of this tile will be added to this TextView."/>
-</android.support.percent.PercentRelativeLayout>
+        <ImageView
+            android:id="@+id/small_item_image_view"
+            android:layout_width="72dp"
+            android:background="@color/background_gray"
+            app:layout_aspectRatio="100%" />
+
+        <TextView
+            android:id="@+id/small_item_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/small_item_image_view"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/small_item_image_view"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:singleLine="true"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Header" />
+
+        <TextView
+            android:id="@+id/small_item_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/small_item_header"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@+id/small_item_image_view"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:maxLines="2"
+            android:textColor="@color/text_gray_dark"
+            android:textSize="14sp"
+            tools:text="The body of this tile will be added to this TextView." />
+    </android.support.percent.PercentRelativeLayout>
+</android.support.v7.widget.CardView>

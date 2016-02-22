@@ -61,7 +61,6 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
 
         // Setup recycler view
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.addItemDecoration(new RecyclerViewDivider(this));
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         if (savedInstanceState == null) {
@@ -69,6 +68,12 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
             // Load content
             // FIXME: Replace this with API
             mTileItems = new ArrayList<TileItem>();
+            mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
+            mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
+            mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
+            mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
+            mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
+            mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
             mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
             mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
             mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
