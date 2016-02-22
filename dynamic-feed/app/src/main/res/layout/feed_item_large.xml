@@ -21,6 +21,8 @@
         <com.jchunch.dynamicfeed.view.SlashImageView
             android:id="@+id/large_item_image_view"
             android:background="@color/background_gray"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             app:layout_aspectRatio="200%"
             app:layout_widthPercent="100%"
             app:slashAngle="10"

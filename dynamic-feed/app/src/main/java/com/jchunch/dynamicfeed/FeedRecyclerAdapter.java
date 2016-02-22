@@ -10,9 +10,7 @@ import com.jchunch.dynamicfeed.item.TileViewHolder;
 import com.jchunch.dynamicfeed.item.large.LargeTileViewHolder;
 import com.jchunch.dynamicfeed.item.regular.RegularTileViewHolder;
 import com.jchunch.dynamicfeed.item.small.SmallTileViewHolder;
-import com.squareup.picasso.Picasso;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -22,11 +20,9 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private static final String TAG = FeedRecyclerAdapter.class.getName();
 
     private List<TileItem> mTileItems;
-    private WeakReference<Picasso> mPicassoWeakRef;
 
-    public FeedRecyclerAdapter(List<TileItem> tileItems, Picasso picasso) {
+    public FeedRecyclerAdapter(List<TileItem> tileItems) {
         mTileItems = tileItems;
-        mPicassoWeakRef = new WeakReference<Picasso>(picasso);
     }
 
     @Override
@@ -63,7 +59,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
         TileItem tileItem = getTileItemByPosition(position);
         if (tileItem != null) {
-            tileItem.buildTileItem(viewHolder, mPicassoWeakRef);
+            tileItem.buildTileItem(viewHolder);
         }
     }
 

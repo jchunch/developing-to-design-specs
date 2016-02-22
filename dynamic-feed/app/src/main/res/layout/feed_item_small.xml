@@ -22,6 +22,8 @@
             android:id="@+id/small_item_image_view"
             android:layout_width="72dp"
             android:background="@color/background_gray"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             app:layout_aspectRatio="100%" />
 
         <TextView

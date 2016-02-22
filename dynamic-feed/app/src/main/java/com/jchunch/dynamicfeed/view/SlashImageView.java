@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -90,12 +91,14 @@ public class SlashImageView extends ImageView {
         Path slash = new Path();
         slash.moveTo(width, height);
         slash.lineTo(width, height - slashHeight);
-        slash.lineTo(0, height);
+        slash.lineTo(0f, height);
         slash.close();
 
         // Set slash fill
         Paint fill = new Paint();
         fill.setColor(mSlashColor);
+        fill.setStrokeWidth(1f);
+        fill.setStyle(Style.FILL_AND_STROKE);
 
         // Draw slash
         canvas.drawPath(slash, fill);

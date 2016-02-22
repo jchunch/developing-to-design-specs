@@ -31,9 +31,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:support-v13:23.1.1'
 
-    // Image
-    compile 'com.squareup.picasso:picasso:2.5.2'
-
     // Network
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'

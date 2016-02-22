@@ -18,7 +18,6 @@ import android.widget.ViewFlipper;
 
 import com.jchunch.dynamicfeed.item.TileItem;
 import com.jchunch.dynamicfeed.network.FeedNetworkService;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +90,7 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
 
         // Init variables for recycler view
         mTileItems = new ArrayList<TileItem>();
-        Picasso picasso = Picasso.with(this);
-        mRecyclerAdapter = new FeedRecyclerAdapter(mTileItems, picasso);
+        mRecyclerAdapter = new FeedRecyclerAdapter(mTileItems);
         mLinearLayoutManager = new LinearLayoutManager(this);
 
         // Setup recycler view

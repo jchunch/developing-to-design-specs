@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.jchunch.dynamicfeed.R;
 import com.jchunch.dynamicfeed.item.TileItem;
 import com.jchunch.dynamicfeed.item.TileViewHolder;
 import com.jchunch.dynamicfeed.model.SmallTile;
-import com.squareup.picasso.Picasso;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by jchunch on 2/18/16.
@@ -27,7 +25,7 @@ public class SmallTileItem extends TileItem implements Parcelable {
     }
     
     @Override
-    public void buildTileItem(TileViewHolder tileViewHolder, WeakReference<Picasso> picassoWeakRef) {
+    public void buildTileItem(TileViewHolder tileViewHolder) {
         if (mSmallTile != null && tileViewHolder != null 
                 && tileViewHolder instanceof SmallTileViewHolder) {
             
@@ -35,22 +33,13 @@ public class SmallTileItem extends TileItem implements Parcelable {
             
             String body = mSmallTile.getBody();
             String header = mSmallTile.getHeader();
-            String imageUrl = mSmallTile.getImageUrl();
+            // String imageUrl = mSmallTile.getImageUrl();
 
             smallTileViewHolder.body.setText(body != null ? body : "");
             smallTileViewHolder.header.setText(header != null ? header : "");
 
-            if (imageUrl != null && picassoWeakRef != null) {
-                Picasso picasso = picassoWeakRef.get();
-                if (picasso != null) {
-
-                    // TODO: Add `...resize(w, h).centerCrop()...`
-                    // int h = smallTileViewHolder.imageView.getHeight();
-                    // int w = smallTileViewHolder.imageView.getWidth();
-
-                    // picasso.load(imageUrl).into(smallTileViewHolder.imageView);
-                }
-            }
+            // For simplicity, network image loading not included in this example
+            smallTileViewHolder.imageView.setImageResource(R.drawable.pic_three);
         }
     }
 
