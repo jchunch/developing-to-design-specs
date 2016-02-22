@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/debug_red">
 
-        <com.jchunch.dynamicfeed.SlashImageView
+        <com.jchunch.dynamicfeed.view.SlashImageView
             android:id="@+id/large_item_image_view"
             android:background="@color/background_gray"
             app:layout_aspectRatio="200%"

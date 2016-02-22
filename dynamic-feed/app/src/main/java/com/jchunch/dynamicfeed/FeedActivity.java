@@ -1,5 +1,6 @@
 package com.jchunch.dynamicfeed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.jchunch.dynamicfeed.item.small.SmallTileItem;
 import com.jchunch.dynamicfeed.model.LargeTile;
 import com.jchunch.dynamicfeed.model.RegularTile;
 import com.jchunch.dynamicfeed.model.SmallTile;
+import com.jchunch.dynamicfeed.network.NetworkService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,6 +66,9 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         if (savedInstanceState == null) {
+
+            Intent intent = new Intent(this, NetworkService.class);
+            startService(intent);
 
             // Load content
             // FIXME: Replace this with API

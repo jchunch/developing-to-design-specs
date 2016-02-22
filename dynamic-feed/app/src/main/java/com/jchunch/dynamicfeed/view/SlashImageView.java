@@ -1,4 +1,4 @@
-package com.jchunch.dynamicfeed;
+package com.jchunch.dynamicfeed.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.jchunch.dynamicfeed.R;
+
 /**
  * Created by John C. Hunchar on 2/21/16.
  */
@@ -18,7 +20,7 @@ public class SlashImageView extends ImageView {
     private static final String TAG = SlashImageView.class.getName();
 
     private static final float DEFAULT_VALUE_ANGLE_DEG = 0f;
-    private static final int DEFAULT_VALUE_COLOR = android.R.color.transparent;
+    private static final int DEFAULT_VALUE_COLOR = android.R.color.white;
 
     private float mSlashAngle;
     private int mSlashColor;
