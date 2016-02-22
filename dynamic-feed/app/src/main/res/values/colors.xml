@@ -6,13 +6,14 @@
 
     <color name="background_black">#000000</color>
     <color name="background_gray">#E2E2E2</color>
+    <color name="background_gray_light">#EEEEEE</color>
     <color name="background_white">#FFFFFF</color>
 
     <color name="text_black">#000000</color>
     <color name="text_gray_dark">#222222</color>
     <color name="text_white">#FFFFFF</color>
 
-    <color name="debug_red">#F00</color>
-    <color name="debug_green">#0F0</color>
-    <color name="debug_blue">#00F</color>
+    <color name="debug_red">#16FF0000</color>
+    <color name="debug_green">#1600FF00</color>
+    <color name="debug_blue">#160000FF</color>
 </resources>

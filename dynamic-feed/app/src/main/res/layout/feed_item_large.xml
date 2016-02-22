@@ -16,7 +16,7 @@
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/debug_red">
+        android:background="@color/background_white">
 
         <com.jchunch.dynamicfeed.view.SlashImageView
             android:id="@+id/large_item_image_view"
@@ -26,7 +26,7 @@
             app:layout_aspectRatio="200%"
             app:layout_widthPercent="100%"
             app:slashAngle="10"
-            app:slashFill="@color/debug_red"/>
+            app:slashFill="@color/background_white"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -15,8 +15,7 @@
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/debug_blue">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/small_item_image_view"
