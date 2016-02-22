@@ -92,19 +92,30 @@ public class NetworkUtils {
 
         List<TileItem> tileItems = new ArrayList<TileItem>();
 
-        // TODO: Clean this up
         if (response != null) {
+
+            // Get the response body
             JsonElement responseBody = response.body();
             if (responseBody != null) {
+
+                // Convert response body into json object
                 JsonObject jsonObject = responseBody.getAsJsonObject();
                 if (jsonObject != null) {
+
+                    // Get the array of tiles
                     JsonArray jsonArray = jsonObject.getAsJsonArray(KEY_VALUE_FEED);
                     if (jsonArray != null) {
+
+                        // Iterate through tiles array
                         for (int i = 0; i < jsonArray.size(); i++) {
                             JsonElement jsonElement = jsonArray.get(i);
                             if (jsonElement != null) {
+
+                                // Get tile object and tile type
                                 JsonObject obj = jsonElement.getAsJsonObject();
                                 String type = obj.get(KEY_VALUE_TYPE).getAsString();
+
+                                // Build tile based on type and add to tile items
                                 switch (type) {
                                     case TYPE_VALUE_LARGE:
                                         LargeTileItem largeTileItem = buildLargeTileItem(obj);

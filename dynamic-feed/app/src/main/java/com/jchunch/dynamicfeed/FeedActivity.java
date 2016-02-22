@@ -1,23 +1,23 @@
 package com.jchunch.dynamicfeed;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import com.jchunch.dynamicfeed.item.TileItem;
-import com.jchunch.dynamicfeed.item.large.LargeTileItem;
-import com.jchunch.dynamicfeed.item.regular.RegularTileItem;
-import com.jchunch.dynamicfeed.item.small.SmallTileItem;
-import com.jchunch.dynamicfeed.model.LargeTile;
-import com.jchunch.dynamicfeed.model.RegularTile;
-import com.jchunch.dynamicfeed.model.SmallTile;
-import com.jchunch.dynamicfeed.network.NetworkService;
+import com.jchunch.dynamicfeed.network.FeedNetworkService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ import java.util.List;
 public class FeedActivity extends AppCompatActivity implements OnClickListener {
     private static final String TAG = FeedActivity.class.getName();
     private static final String KEY_ARG_CHILD_VIEW_INDEX = "KEY_ARG_CHILD_VIEW_INDEX";
+    private static final String KEY_ARG_TILE_ITEMS = "KEY_ARG_TILE_ITEMS";
 
     private Button mRetry;
     private FeedRecyclerAdapter mRecyclerAdapter;
@@ -45,6 +46,37 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         // This can also be used for denied run-time permissions, empty states, etc.
     }
 
+    private BroadcastReceiver mNetworkReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "onReceive");
+            }
+
+            String action = intent.getAction();
+            if (action != null && action.equals(FeedNetworkService.ACTION)) {
+
+                boolean success = intent.getBooleanExtra(FeedNetworkService.KEY_ARG_SUCCESS, false);
+                if (success) {
+
+                    // Get tile items
+                    mTileItems = intent.getParcelableArrayListExtra(
+                            FeedNetworkService.KEY_ARG_TILE_ITEMS);
+
+                    // Update view state if tile items available
+                    if (mTileItems != null) {
+                        mRecyclerAdapter.updateTileItems(mTileItems);
+                        updateViewFlipper(ViewState.FEED);
+                        return;
+                    }
+                }
+
+                // Response was unsuccessful
+                updateViewFlipper(ViewState.ERROR);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +86,8 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         mRetry = (Button) findViewById(R.id.error_button_retry);
         mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
         mViewFlipper = (ViewFlipper) findViewById(R.id.main_view_flipper);
+
+        mRetry.setOnClickListener(this);
 
         // Init variables for recycler view
         mTileItems = new ArrayList<TileItem>();
@@ -66,24 +100,11 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         if (savedInstanceState == null) {
+            updateViewFlipper(ViewState.LOADING);
 
-            Intent intent = new Intent(this, NetworkService.class);
+            // Request feed content
+            Intent intent = new Intent(this, FeedNetworkService.class);
             startService(intent);
-
-            // Load content
-            // FIXME: Replace this with API
-            mTileItems = new ArrayList<TileItem>();
-            mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
-            mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
-            mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
-            mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
-            mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
-            mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
-            mTileItems.add(new SmallTileItem(new SmallTile("Small Header", "Small Body", null)));
-            mTileItems.add(new RegularTileItem(new RegularTile("Regular Header", "Regular Body", null)));
-            mTileItems.add(new LargeTileItem(new LargeTile("Large Header", "Large Body", null)));
-            mRecyclerAdapter.updateTileItems(mTileItems);
-
         } else {
 
             // Restore view state
@@ -100,11 +121,18 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Register broadcast receiver
+        IntentFilter intentFilter = new IntentFilter(FeedNetworkService.ACTION);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mNetworkReceiver, intentFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Unregister broadcast receiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNetworkReceiver);
     }
 
     @Override
@@ -113,6 +141,8 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
 
         int childViewIndex = mViewFlipper.getDisplayedChild();
         outState.putInt(KEY_ARG_CHILD_VIEW_INDEX, childViewIndex);
+
+        outState.putParcelableArrayList(KEY_ARG_TILE_ITEMS, (ArrayList<? extends Parcelable>) mTileItems);
     }
 
     @Override
@@ -130,7 +160,10 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.error_button_retry:
                 updateViewFlipper(ViewState.LOADING);
-                // Load content
+
+                // Request feed content
+                Intent intent = new Intent(this, FeedNetworkService.class);
+                startService(intent);
                 break;
         }
     }

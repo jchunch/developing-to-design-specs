@@ -79,7 +79,7 @@ public class LargeTile extends Tile implements Parcelable {
             String body = bundle.getString(KEY_ARG_BODY);
             String imageUrl = bundle.getString(KEY_ARG_IMAGE_URL);
 
-            // Instantiate a person using values from the bundle
+            // Instantiate tile using values from the bundle
             return new LargeTile(
                     header,
                     body,
@@ -89,7 +89,6 @@ public class LargeTile extends Tile implements Parcelable {
 
         @Override
         public LargeTile[] newArray(int size) {
-
             return new LargeTile[size];
         }
     };
