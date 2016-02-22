@@ -62,15 +62,18 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
                     mTileItems = intent.getParcelableArrayListExtra(
                             FeedNetworkService.KEY_ARG_TILE_ITEMS);
 
-                    // Update view state if tile items available
                     if (mTileItems != null) {
+                        // Update recycler adapter
                         mRecyclerAdapter.updateTileItems(mTileItems);
+
+                        // Set feed view state
                         updateViewFlipper(ViewState.FEED);
                         return;
                     }
                 }
 
                 // Response was unsuccessful
+                // Set error view state
                 updateViewFlipper(ViewState.ERROR);
             }
         }
@@ -98,6 +101,7 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         if (savedInstanceState == null) {
+            // Set loading view state
             updateViewFlipper(ViewState.LOADING);
 
             // Request feed content
@@ -137,10 +141,13 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        // Save view state
         int childViewIndex = mViewFlipper.getDisplayedChild();
         outState.putInt(KEY_ARG_CHILD_VIEW_INDEX, childViewIndex);
 
-        outState.putParcelableArrayList(KEY_ARG_TILE_ITEMS, (ArrayList<? extends Parcelable>) mTileItems);
+        // Save tile items
+        outState.putParcelableArrayList(
+                KEY_ARG_TILE_ITEMS, (ArrayList<? extends Parcelable>) mTileItems);
     }
 
     @Override
@@ -157,6 +164,7 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.error_button_retry:
+                // Set loading view state
                 updateViewFlipper(ViewState.LOADING);
 
                 // Request feed content
