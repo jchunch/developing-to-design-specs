@@ -28,10 +28,7 @@ public class NetworkService extends IntentService {
         LogUtil.d(TAG, "newInstanceIntent: " + endpoint);
 
         Intent intent = new Intent(context, NetworkService.class);
-
-        // Add the endpoint
         intent.putExtra(KEY_ARG_ENDPOINT, endpoint);
-
         return intent;
     }
 
