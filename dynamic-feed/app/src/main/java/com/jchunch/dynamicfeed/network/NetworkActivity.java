@@ -18,8 +18,8 @@ public class NetworkActivity extends AppCompatActivity {
     private static final String TAG = NetworkActivity.class.getName();
     private static final String KEY_ARG_RESPONSE_BODY_JSON = "KEY_ARG_RESPONSE_BODY_JSON";
 
-    protected String mResponseBodyJson;
     protected String mEndpoint;
+    protected String mResponseBodyJson;
 
     private BroadcastReceiver mNetworkReceiver = new BroadcastReceiver() {
         @Override
