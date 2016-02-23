@@ -1,12 +1,6 @@
 package com.jchunch.dynamicfeed;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,7 +13,7 @@ import com.jchunch.dynamicfeed.item.TileItem;
 import com.jchunch.dynamicfeed.item.TileItemUtils;
 import com.jchunch.dynamicfeed.log.LogUtil;
 import com.jchunch.dynamicfeed.network.Endpoints;
-import com.jchunch.dynamicfeed.network.NetworkService;
+import com.jchunch.dynamicfeed.network.NetworkActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +21,8 @@ import java.util.List;
 /**
  * Created by jchunch on 2/16/16.
  */
-public class FeedActivity extends AppCompatActivity implements OnClickListener {
+public class FeedActivity extends NetworkActivity implements OnClickListener {
     private static final String TAG = FeedActivity.class.getName();
-    private static final String KEY_ARG_CHILD_VIEW_INDEX = "KEY_ARG_CHILD_VIEW_INDEX";
     private static final String KEY_ARG_RESPONSE_BODY_JSON = "KEY_ARG_RESPONSE_BODY_JSON";
 
     private Button mRetry;
@@ -45,33 +38,6 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         FEED,
         LOADING
     }
-
-    private BroadcastReceiver mNetworkReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            LogUtil.d(TAG, "onReceive");
-
-            String action = intent.getAction();
-            if (action != null && action.equals(NetworkService.ACTION)) {
-                mResponseBodyJson = intent.getStringExtra(NetworkService.KEY_ARG_RESPONSE_BODY_JSON);
-                if (!TextUtils.isEmpty(mResponseBodyJson)) {
-
-                    // Get tile items
-                    mTileItems = TileItemUtils.getTileItemsFromJsonString(mResponseBodyJson);
-
-                    // Update recycler adapter
-                    mRecyclerAdapter.updateTileItems(mTileItems);
-
-                    // Set feed view state
-                    updateViewFlipper(ViewState.FEED);
-                    return;
-                }
-            }
-
-            // Set error view state
-            updateViewFlipper(ViewState.ERROR);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,26 +63,12 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
-        // Attempt to restore state, otherwise request content
+        // Attempt to restore feed content, otherwise request new feed content
         if (savedInstanceState == null) {
-
-            // Request feed content
-            Intent intent = NetworkService.newInstanceIntent(this, Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
-            startService(intent);
-
-            // Set loading view state
-            updateViewFlipper(ViewState.LOADING);
-
+            executeNetworkRequest(Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
         } else {
-
-            // Restore feed content
-            mResponseBodyJson = savedInstanceState.getString(KEY_ARG_RESPONSE_BODY_JSON);
-            mTileItems = TileItemUtils.getTileItemsFromJsonString(mResponseBodyJson);
-            mRecyclerAdapter.updateTileItems(mTileItems);
-
-            // Restore view state
-            int childViewIndex = savedInstanceState.getInt(KEY_ARG_CHILD_VIEW_INDEX);
-            mViewFlipper.setDisplayedChild(childViewIndex);
+            String responseBodyJson = savedInstanceState.getString(KEY_ARG_RESPONSE_BODY_JSON);
+            handleNetworkResponse(responseBodyJson);
 
         }
     }
@@ -131,29 +83,18 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         LogUtil.d(TAG, "onResume");
-
-        // Register broadcast receiver
-        IntentFilter intentFilter = new IntentFilter(NetworkService.ACTION);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mNetworkReceiver, intentFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         LogUtil.d(TAG, "onPause");
-
-        // Unregister broadcast receiver
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNetworkReceiver);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         LogUtil.d(TAG, "onSaveInstanceState");
-
-        // Save view state
-        int childViewIndex = mViewFlipper.getDisplayedChild();
-        outState.putInt(KEY_ARG_CHILD_VIEW_INDEX, childViewIndex);
 
         // Save feed content
         outState.putString(KEY_ARG_RESPONSE_BODY_JSON, mResponseBodyJson);
@@ -177,13 +118,7 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.error_button_retry:
-
-                // Request feed content
-                Intent intent = NetworkService.newInstanceIntent(this, Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
-                startService(intent);
-
-                // Set loading view state
-                updateViewFlipper(ViewState.LOADING);
+                executeNetworkRequest(Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
                 break;
 
             default:
@@ -226,6 +161,24 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
         Integer viewFlipperChildIndex = getViewFlipperChildIndexFromResId(childViewResId);
         if (viewFlipperChildIndex != null) {
             mViewFlipper.setDisplayedChild(viewFlipperChildIndex);
+        }
+    }
+
+    protected void executeNetworkRequest(String endpoint) {
+        updateViewFlipper(ViewState.LOADING);
+        super.executeNetworkRequest(endpoint);
+    }
+
+    protected void handleNetworkResponse(String responseBodyJson) {
+        mResponseBodyJson = responseBodyJson;
+
+        // Attempt to display feed content, otherwise display error
+        if (!TextUtils.isEmpty(mResponseBodyJson)) {
+            mTileItems = TileItemUtils.getTileItemsFromResponseBodyJson(mResponseBodyJson);
+            mRecyclerAdapter.updateTileItems(mTileItems);
+            updateViewFlipper(ViewState.FEED);
+        } else {
+            updateViewFlipper(ViewState.ERROR);
         }
     }
 }

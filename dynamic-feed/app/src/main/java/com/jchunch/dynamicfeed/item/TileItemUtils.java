@@ -84,7 +84,7 @@ public class TileItemUtils {
         return new SmallTileItem(smallTile);
     }
 
-    public static List<TileItem> getTileItemsFromJsonString(String jsonString) {
+    public static List<TileItem> getTileItemsFromResponseBodyJson(String jsonString) {
         List<TileItem> tileItems = new ArrayList<TileItem>();
 
         if (!TextUtils.isEmpty(jsonString)) {
@@ -125,7 +125,7 @@ public class TileItemUtils {
                                     break;
 
                                 default:
-                                    LogUtil.w(TAG, "getTileItemsFromJsonString: unknown tile type");
+                                    LogUtil.w(TAG, "getTileItemsFromResponseBodyJson: unknown tile type");
                                     break;
                             }
                         }
