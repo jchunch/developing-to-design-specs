@@ -59,7 +59,7 @@ public class NetworkService extends IntentService {
                 responseBodyJson = NetworkUtils.getResponseBodyJson(response);
 
             } catch (IOException e) {
-                LogUtil.w(TAG, e.getMessage());
+                LogUtil.w(TAG, "onHandleIntent: " + e.getMessage());
             }
         }
 
