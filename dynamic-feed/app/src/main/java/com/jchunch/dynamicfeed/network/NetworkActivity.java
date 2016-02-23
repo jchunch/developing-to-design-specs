@@ -26,11 +26,13 @@ public class NetworkActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             LogUtil.d(TAG, "onReceive");
 
+            // Get response body object
             String action = intent.getAction();
             if (action != null && action.equals(NetworkService.ACTION)) {
                 mResponseBodyJson = intent.getStringExtra(NetworkService.KEY_ARG_RESPONSE_BODY_JSON);
             }
 
+            // Handle network response
             handleNetworkResponse();
         }
     };
