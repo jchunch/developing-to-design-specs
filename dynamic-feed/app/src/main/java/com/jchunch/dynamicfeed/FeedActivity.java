@@ -179,7 +179,7 @@ public class FeedActivity extends AppCompatActivity implements OnClickListener {
             case R.id.error_button_retry:
 
                 // Request feed content
-                Intent intent = new Intent(this, NetworkService.class);
+                Intent intent = NetworkService.newInstanceIntent(this, Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
                 startService(intent);
 
                 // Set loading view state
