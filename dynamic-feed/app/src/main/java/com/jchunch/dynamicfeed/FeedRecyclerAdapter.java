@@ -10,6 +10,7 @@ import com.jchunch.dynamicfeed.item.TileViewHolder;
 import com.jchunch.dynamicfeed.item.large.LargeTileViewHolder;
 import com.jchunch.dynamicfeed.item.regular.RegularTileViewHolder;
 import com.jchunch.dynamicfeed.item.small.SmallTileViewHolder;
+import com.jchunch.dynamicfeed.log.LogUtil;
 
 import java.util.List;
 
@@ -45,6 +46,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<TileViewHolder> {
             case TileItem.TILE_ITEM_TYPE_SMALL:
                 View smallView = inflater.inflate(R.layout.feed_item_small, parent, false);
                 viewHolder = new SmallTileViewHolder(smallView);
+                break;
+
+            default:
+                LogUtil.w(TAG, "onCreateViewHolder: unknown view type");
                 break;
         }
 
