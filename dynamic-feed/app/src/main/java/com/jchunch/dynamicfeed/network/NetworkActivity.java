@@ -45,7 +45,7 @@ public class NetworkActivity extends AppCompatActivity {
         // Init endpoint
         initEndpoint();
 
-        // Restore response body json if available
+        // Attempt to restore response body json
         if (savedInstanceState != null) {
             mResponseBodyJson = savedInstanceState.getString(KEY_ARG_RESPONSE_BODY_JSON);
         } else {
