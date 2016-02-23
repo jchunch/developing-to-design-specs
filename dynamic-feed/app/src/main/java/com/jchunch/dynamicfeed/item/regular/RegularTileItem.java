@@ -34,8 +34,8 @@ public class RegularTileItem extends TileItem {
             regularTileViewHolder.body.setText(body != null ? body : "");
             regularTileViewHolder.header.setText(header != null ? header : "");
 
-            // For simplicity, network image loading not included in this example
-            regularTileViewHolder.imageView.setImageResource(R.drawable.pic_two);
+            // For simplicity, network image loading not included in this demo
+            regularTileViewHolder.imageView.setImageResource(R.drawable.pic_regular);
         }
     }
 

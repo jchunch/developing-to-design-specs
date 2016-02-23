@@ -1,4 +1,4 @@
-package com.jchunch.dynamicfeed.network;
+package com.jchunch.dynamicfeed.network.constants;
 
 /**
  * Created by jchunch on 2/22/16.

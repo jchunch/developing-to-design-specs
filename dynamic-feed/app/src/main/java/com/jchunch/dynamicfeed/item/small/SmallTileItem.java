@@ -34,8 +34,8 @@ public class SmallTileItem extends TileItem {
             smallTileViewHolder.body.setText(body != null ? body : "");
             smallTileViewHolder.header.setText(header != null ? header : "");
 
-            // For simplicity, network image loading not included in this example
-            smallTileViewHolder.imageView.setImageResource(R.drawable.pic_three);
+            // For simplicity, network image loading not included in this demo
+            smallTileViewHolder.imageView.setImageResource(R.drawable.pic_small);
         }
     }
 

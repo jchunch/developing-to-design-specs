@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.google.gson.JsonElement;
 import com.jchunch.dynamicfeed.log.LogUtil;
+import com.jchunch.dynamicfeed.network.client.RestClient;
 
 import java.io.IOException;
 

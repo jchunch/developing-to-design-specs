@@ -34,8 +34,8 @@ public class LargeTileItem extends TileItem {
             largeTileViewHolder.body.setText(body != null ? body : "");
             largeTileViewHolder.header.setText(header != null ? header : "");
 
-            // For simplicity, network image loading not included in this example
-            largeTileViewHolder.imageView.setImageResource(R.drawable.pic_one);
+            // For simplicity, network image loading not included in this demo
+            largeTileViewHolder.imageView.setImageResource(R.drawable.pic_large);
         }
     }
 

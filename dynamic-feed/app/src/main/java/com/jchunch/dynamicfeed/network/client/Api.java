@@ -1,4 +1,4 @@
-package com.jchunch.dynamicfeed.network;
+package com.jchunch.dynamicfeed.network.client;
 
 import com.google.gson.JsonElement;
 

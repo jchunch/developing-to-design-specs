@@ -1,4 +1,4 @@
-package com.jchunch.dynamicfeed.network;
+package com.jchunch.dynamicfeed.network.client;
 
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
