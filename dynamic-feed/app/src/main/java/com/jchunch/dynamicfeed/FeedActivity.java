@@ -108,7 +108,7 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
                 break;
 
             default:
-                LogUtil.d(TAG, "onCreate: unknown view clicked");
+                LogUtil.w(TAG, "onCreate: unknown view clicked");
                 break;
         }
     }
