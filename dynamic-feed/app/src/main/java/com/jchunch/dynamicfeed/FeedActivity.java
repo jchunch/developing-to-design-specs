@@ -69,7 +69,6 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
         } else {
             String responseBodyJson = savedInstanceState.getString(KEY_ARG_RESPONSE_BODY_JSON);
             handleNetworkResponse(responseBodyJson);
-
         }
     }
 
