@@ -12,8 +12,8 @@ import android.widget.ViewFlipper;
 import com.jchunch.dynamicfeed.item.TileItem;
 import com.jchunch.dynamicfeed.item.TileItemUtils;
 import com.jchunch.dynamicfeed.log.LogUtil;
-import com.jchunch.dynamicfeed.network.constants.Endpoints;
 import com.jchunch.dynamicfeed.network.NetworkActivity;
+import com.jchunch.dynamicfeed.network.constants.Endpoints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +23,12 @@ import java.util.List;
  */
 public class FeedActivity extends NetworkActivity implements OnClickListener {
     private static final String TAG = FeedActivity.class.getName();
-    private static final String KEY_ARG_RESPONSE_BODY_JSON = "KEY_ARG_RESPONSE_BODY_JSON";
 
     private Button mRetry;
     private FeedRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private List<TileItem> mTileItems;
     private RecyclerView mRecyclerView;
-    private String mResponseBodyJson;
     private ViewFlipper mViewFlipper;
 
     private enum ViewState {
@@ -62,13 +60,6 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
         // Setup recycler view
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mRecyclerAdapter);
-
-        // Restore feed content if available
-        if (savedInstanceState != null) {
-            mResponseBodyJson = savedInstanceState.getString(KEY_ARG_RESPONSE_BODY_JSON);
-        } else {
-            mResponseBodyJson = null;
-        }
     }
 
     @Override
@@ -81,13 +72,6 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         LogUtil.d(TAG, "onResume");
-
-        // Display feed content if available, otherwise request new feed content
-        if (!TextUtils.isEmpty(mResponseBodyJson)) {
-            handleNetworkResponse(mResponseBodyJson);
-        } else {
-            executeNetworkRequest(Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
-        }
     }
 
     @Override
@@ -100,9 +84,6 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         LogUtil.d(TAG, "onSaveInstanceState");
-
-        // Save feed content
-        outState.putString(KEY_ARG_RESPONSE_BODY_JSON, mResponseBodyJson);
     }
 
     @Override
@@ -123,7 +104,7 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.error_button_retry:
-                executeNetworkRequest(Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED);
+                executeNetworkRequest();
                 break;
 
             default:
@@ -169,15 +150,12 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
         }
     }
 
-    protected void executeNetworkRequest(String endpoint) {
+    protected void executeNetworkRequest() {
         updateViewFlipper(ViewState.LOADING);
-        super.executeNetworkRequest(endpoint);
+        super.executeNetworkRequest();
     }
 
-    protected void handleNetworkResponse(String responseBodyJson) {
-        mResponseBodyJson = responseBodyJson;
-
-        // Attempt to display feed content, otherwise display error
+    protected void handleNetworkResponse() {
         if (!TextUtils.isEmpty(mResponseBodyJson)) {
             mTileItems = TileItemUtils.getTileItemsFromResponseBodyJson(mResponseBodyJson);
             mRecyclerAdapter.updateTileItems(mTileItems);
@@ -185,5 +163,9 @@ public class FeedActivity extends NetworkActivity implements OnClickListener {
         } else {
             updateViewFlipper(ViewState.ERROR);
         }
+    }
+
+    protected void initEndpoint() {
+        mEndpoint = Endpoints.ENDPOINT_VALUE_DYNAMIC_FEED;
     }
 }
