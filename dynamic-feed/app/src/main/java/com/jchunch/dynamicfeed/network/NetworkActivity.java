@@ -14,7 +14,7 @@ import com.jchunch.dynamicfeed.log.LogUtil;
 /**
  * Created by jchunch on 2/22/16.
  */
-public class NetworkActivity extends AppCompatActivity {
+public abstract class NetworkActivity extends AppCompatActivity {
     private static final String TAG = NetworkActivity.class.getName();
     private static final String KEY_ARG_RESPONSE_BODY_JSON = "KEY_ARG_RESPONSE_BODY_JSON";
 
@@ -111,11 +111,7 @@ public class NetworkActivity extends AppCompatActivity {
         startService(intent);
     }
 
-    protected void handleNetworkResponse() {
-        // Override in sub-class
-    }
+    protected abstract void handleNetworkResponse();
 
-    protected void initEndpoint() {
-        // Override in sub-class
-    }
+    protected abstract void initEndpoint();
 }
